@@ -24,4 +24,8 @@ module.exports = (app) => {
         }).catch(err => res.send(err))
     });
 
+    app.get('/', (req, resp) => {
+        resp.send('Funcionando')
+    })
+
 }
