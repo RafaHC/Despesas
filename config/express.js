@@ -77,6 +77,6 @@ app.post("/login", (req, res) => {
         }).catch(err => res.send(err));
 });
 
-app.listen(3000, () => console.log('Server Rodando'))
+app.listen(process.env.PORT || 3000, () => console.log('Server Rodando'))
 
 module.exports = app;
