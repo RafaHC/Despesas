@@ -1,5 +1,17 @@
 let connection = require('../config/database')();
 
+let transporter = nodemailer.createTransport({
+    service: 'Gmail',
+    auth: {
+      user: 'rafaelhc103@gmail.com',
+      pass: process.env.email_KEY.trim()
+    },
+    tls:{
+      rejectUnauthorized: false
+    }
+  });
+  
+
 let LoginDao = {
     getUsers: () => {
         return new Promise((resolve, reject) => {
@@ -28,7 +40,6 @@ let LoginDao = {
         })
     },
     sentEmail: (email) => {
-        
         const mailOptions = {
             from: 'rafaelhc103@gmail.com',
             to: email,
