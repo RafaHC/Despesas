@@ -20,7 +20,7 @@ module.exports = (app) => {
     app.post("/user", (req, res) => {
         LoginDao.postUser(req.body)
         .then((recordsets) => {
-            LoginDao.sendMail(req.body.email)
+            LoginDao.sendMail(req.body)
             .then(() => res.json(req.body))
             .catch(err => console.log(err))
             

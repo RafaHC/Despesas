@@ -40,13 +40,17 @@ let LoginDao = {
             });
         })
     },
-    sendMail: (email) => {
+    sendMail: (user) => {
         return new Promise((resolve, reject) => {
             const mailOptions = {
                 from: 'rafaelhc103@gmail.com',
-                to: email,
+                to: user.email,
                 subject: 'Subject of your email', // Subject line
-                html: '<p>Your html Deu certo Mano</p>'// plain text body
+                html: `
+                        <h1>Parabéns, Você criou sua conta
+                        User: ${user.user}</h1>
+                        
+                        <p>Acompanhe nossas novidades</p>`
             };
             
             
