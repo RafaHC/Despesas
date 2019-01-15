@@ -41,21 +41,23 @@ let LoginDao = {
         })
     },
     sentEmail: (email) => {
-        const mailOptions = {
-            from: 'rafaelhc103@gmail.com',
-            to: email,
-            subject: 'Subject of your email', // Subject line
-            html: '<p>Your html Deu certo Mano</p>'// plain text body
-        };
-        
-        
-        transporter.sendMail(mailOptions, function(error, info){
-          if (error) {
-            console.log('error: ' + error);
-          } else {
-            console.log('Email sent: ' + info.response);
-          }
-        });
+        return new Promise((resolve, reject) => {
+            const mailOptions = {
+                from: 'rafaelhc103@gmail.com',
+                to: email,
+                subject: 'Subject of your email', // Subject line
+                html: '<p>Your html Deu certo Mano</p>'// plain text body
+            };
+            
+            
+            transporter.sendMail(mailOptions, function(error, info){
+              if (error) {
+                reject(error);
+              } else {
+                resolve('Email sent: ' + info.response);
+              }
+            });
+        })
         
   }
 }
