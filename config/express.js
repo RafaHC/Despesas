@@ -64,13 +64,7 @@ app.post("/login", (req, res) => {
                 var token = jwt.sign(payload, jwtOptions.secretOrKey);
 
                 let formataToken = `JWT ${token}`;
-                LoginDao.setToken(user.id, formataToken)
-                    .then((data) => {
-
                         res.json({ id: user.id, token: formataToken });
-                    }).catch(err => res.send(err));
-
-
             } else {
                 res.status(401).json({ message: "Senha Incorreta!" });
             }

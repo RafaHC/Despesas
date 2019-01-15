@@ -16,7 +16,7 @@ let LoginDao = {
     },
     postUser: (user) => {
         return new Promise((resolve, reject) => {
-            let query = `INSERT INTO USERS (user, senha) VALUES ('${user.user}','${user.senha}')`;
+            let query = `INSERT INTO USERS (user, senha, email) VALUES ('${user.user}','${user.senha}', '${user.email}')`;
             connection.query(query, (err, data) => {
                 if (err) {
                     reject(err);
@@ -26,22 +26,7 @@ let LoginDao = {
 
             });
         })
-    },
-    setToken: (id, token) => {
-        return new Promise((resolve, reject) => {
-            let query = `UPDATE users SET token =  '${token}' WHERE id = ${id}`
-            connection.query(query, (err, data) => {
-                if (err) {
-                    reject(err);
-                }
-
-                resolve();
-
-            });
-        })
     }
-
-
 }
 
 module.exports = LoginDao;
