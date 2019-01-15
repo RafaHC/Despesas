@@ -40,7 +40,7 @@ let LoginDao = {
             });
         })
     },
-    sentEmail: (email) => {
+    sendMail: (email) => {
         return new Promise((resolve, reject) => {
             const mailOptions = {
                 from: 'rafaelhc103@gmail.com',
