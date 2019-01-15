@@ -64,7 +64,7 @@ app.post("/login", (req, res) => {
                 var token = jwt.sign(payload, jwtOptions.secretOrKey);
 
                 let formataToken = `JWT ${token}`;
-                        res.json({ id: user.id, token: formataToken });
+                        res.json({ id: user.id, token: formataToken, email: user.email });
             } else {
                 res.status(401).json({ message: "Senha Incorreta!" });
             }
