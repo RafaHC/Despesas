@@ -1,6 +1,6 @@
 let connection = require('../config/database')();
 const nodemailer = require('nodemailer');
-// CONFIG DO EMAIL
+// CONFIG DO  NODEMAILER
 let transporter = nodemailer.createTransport({
     service: 'Gmail',
     auth: {
