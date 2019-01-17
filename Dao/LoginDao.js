@@ -62,8 +62,24 @@ let LoginDao = {
               }
             });
         })
-        
+  },
+  verificarEmail: (email) => {
+    return new Promise((resolve, reject) => {
+        let query = `select email from users WHERE email='${email}'`;
+        connection.query(query, (err, data) => {
+            if (err) {
+                reject(err);
+            }
+            if(data.length == 0){
+                resolve(true);
+            }else{
+                reject({message: 'Este Email ja esta sendo usado'})
+            }
+
+        });
+    })
   }
+
 }
 
 module.exports = LoginDao;
