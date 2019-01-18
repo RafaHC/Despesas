@@ -1,7 +1,8 @@
-
 const passport = require("passport");
 const DespesasDao = require('../Dao/DespesasDao');
 const LoginDao = require('../Dao/LoginDao');
+
+//https://developer.okta.com/blog/2018/11/15/node-express-typescript
 module.exports = (app) => {
     app.get("/despesas/:id", passport.authenticate('jwt', { session: false }), (req, res) => {
         DespesasDao.getDespesas(req.params.id)
@@ -18,19 +19,17 @@ module.exports = (app) => {
     app.post("/user", (req, resp) => {
         LoginDao.verificarEmail(req.body.email)
             .then(() => {
-                    LoginDao.postUser(req.body)
-                        .then(() => {
-                            LoginDao.sendMail(req.body)
-                                .then(() => resp.json(req.body))
-                                .catch(err => console.log(err))
-
-                        })
-                        .catch(err => resp.send(err))
-                
-            }) .catch(err => resp.send(err))
+                LoginDao.postUser(req.body)
+                    .then(() => {
+                        LoginDao.sendMail(req.body)
+                            .then(() => resp.json(req.body))
+                            .catch(err => console.log(err))
+                    })
+                    .catch(err => resp.send(err))
+            }).catch(err => resp.send(err))
     });
     app.get('/', (req, resp) => {
-        res.send('funcionando');
+        resp.send('funcionando');
     })
 
 }
