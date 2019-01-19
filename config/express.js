@@ -62,7 +62,7 @@ app.post("/login", (req, res) => {
 
                 var payload = { id: user.id };
                 var token = jwt.sign(payload, jwtOptions.secretOrKey);
-
+                console.log('hereee')
                 let formataToken = `JWT ${token}`;
                         res.json({ id: user.id, token: formataToken, email: user.email });
             } else {
