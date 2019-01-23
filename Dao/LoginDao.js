@@ -1,19 +1,5 @@
-//let connection = require('../config/database')();
+let connection = require('../config/database')();
 
-var mysql = require('mysql');
-let urlBd = process.env.CLEARDB_DATABASE_URL;
-let user = urlBd.substring(8,22);
-let password = urlBd.substring(23,31);
-//create a connection
-var db_config = {
-	host:'us-cdbr-iron-east-01.cleardb.net',
-	user: user,
-	password: password,
-	database:'heroku_97cf472f3f1b796'
-};
-
-let connection = mysql.createConnection(db_config); // Recreate the connection, since
-    
 
 const nodemailer = require('nodemailer');
 // CONFIG DO  NODEMAILER
