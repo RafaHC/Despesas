@@ -5,6 +5,7 @@ const LoginDao = require('../Dao/LoginDao');
 //https://developer.okta.com/blog/2018/11/15/node-express-typescript
 module.exports = (app) => {
     app.get("/despesas/:id", passport.authenticate('jwt', { session: false }), (req, res) => {
+        
         DespesasDao.getDespesas(req.params.id)
             .then((recordsets) => {
                 res.json(recordsets);
