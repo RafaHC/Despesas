@@ -12,12 +12,31 @@ module.exports = (app) => {
             }).catch(err => res.send(err))
     });
     app.post("/despesas", passport.authenticate('jwt', { session: false }), (req, res) => {
+        req.assert('nome', 'Nome é obrigatório!').notEmpty();
+        req.assert('valor', 'Formato invalido').isFloat();
+        req.assert('userId', 'Id do Usuario é obrigatório!').notEmpty();
+        let erros = req.validationErrors();
+
+        if(erros){
+            res.status(400).json(erros)    
+            return;
+        }
         DespesasDao.postDespesa(req.body)
             .then(() => {
                 res.json(req.body);
             }).catch(err => res.send(err))
     });
     app.post("/user", (req, resp) => {
+        req.assert('user', 'Usuario é obrigatório!').notEmpty();
+        req.assert('senha', 'Senha é obrigatória').notEmpty();
+        req.assert('email', 'Email é obrigatório!').notEmpty();
+        let erros = req.validationErrors();
+
+        if(erros){
+            resp.status(400).json(erros)    
+            return;
+        }
+
         LoginDao.verificarEmail(req.body.email)
             .then(() => {
                 LoginDao.postUser(req.body)

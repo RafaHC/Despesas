@@ -6,13 +6,17 @@ let _ = require('lodash');
 var passport = require("passport");
 var passportJWT = require("passport-jwt");
 const LoginDao = require('../Dao/LoginDao');
-
+const expressValidator = require('express-validator');
 var ExtractJwt = passportJWT.ExtractJwt;
 var JwtStrategy = passportJWT.Strategy;
+
 app.use(express.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+app.use(expressValidator());
+
 
 var jwtOptions = {}
+
 jwtOptions.jwtFromRequest = ExtractJwt.fromAuthHeaderWithScheme('jwt');
 jwtOptions.secretOrKey = process.env.SECRET_KEY;
 
