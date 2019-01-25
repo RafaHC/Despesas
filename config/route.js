@@ -39,6 +39,7 @@ module.exports = (app) => {
 
         LoginDao.verificarEmail(req.body.email)
             .then(() => {
+                
                 LoginDao.postUser(req.body)
                     .then(() => {
                         LoginDao.sendMail(req.body)

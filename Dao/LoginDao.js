@@ -33,7 +33,7 @@ let LoginDao = {
             let query = `INSERT INTO USERS (user, senha, email) VALUES ($user,$senha,$email)`;
             connection.query(query,
                 {
-                    bind: { user: user.user, senha: user.senha, email: user.email },
+                    bind: { user: user.user.toLowerCase(), senha: user.senha, email: user.email },
                     type: Sequelize.QueryTypes.INSERT
                 }
             ).then(recordsets => {

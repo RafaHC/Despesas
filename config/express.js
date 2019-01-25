@@ -14,7 +14,6 @@ app.use(express.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(expressValidator());
 
-
 var jwtOptions = {}
 
 jwtOptions.jwtFromRequest = ExtractJwt.fromAuthHeaderWithScheme('jwt');
@@ -57,22 +56,21 @@ app.post("/login", (req, res) => {
                 var password = req.body.senha;
             }
 
-            var user = users[_.findIndex(users, { user: user })];
+            var user = users[_.findIndex(users, { user: user.toLowerCase() })];
             if (!user) {
-                res.status(401).json({ message: "Usuario não encontrado!" });
+                res.status(200).json({ erro: true, message: "Usuario não encontrado!" });
             }
 
             if (user.senha === password) {
 
                 var payload = { id: user.id };
                 var token = jwt.sign(payload, jwtOptions.secretOrKey);
-                console.log('hereee')
                 let formataToken = `JWT ${token}`;
                         res.json({ id: user.id, token: formataToken, email: user.email });
             } else {
-                res.status(401).json({ message: "Senha Incorreta!" });
+                res.status(200).json({ erro: true, message: "Senha Incorreta!" });
             }
-        }).catch(err => res.send(err));
+        }).catch(err => res.status(500).send(err));
 });
 
 app.listen(process.env.PORT || 3000, () => console.log('Server Rodando'))
