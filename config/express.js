@@ -14,7 +14,7 @@ app.use(bodyParser.json());
 
 var jwtOptions = {}
 jwtOptions.jwtFromRequest = ExtractJwt.fromAuthHeaderWithScheme('jwt');
-jwtOptions.secretOrKey = 'tasmanianDevil';
+jwtOptions.secretOrKey = process.env.SECRET_KEY;
 
 var strategy = new JwtStrategy(jwtOptions, function (jwt_payload, next) {
 

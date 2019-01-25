@@ -28,6 +28,16 @@ let DespesasDao = {
             }).catch(err => reject(err))
         })
     },
+    deleteDespesa: (id) => {
+        return new Promise((resolve, reject) => {
+            let query = `DELETE FROM despesas WHERE id = $id`;
+            connection.query(query,{
+                bind: { id: id },
+                type: Sequelize.QueryTypes.DELETE
+            }).then(rs => resolve({message: 'Deletado com sucesso'}))
+            .catch((err) => reject(err))
+        })
+    }
 }
 
 module.exports = DespesasDao;

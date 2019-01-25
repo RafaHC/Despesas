@@ -31,6 +31,13 @@ module.exports = (app) => {
     });
     app.get('/', (req, resp) => {
         resp.send('funcionando');
-    })
+    });
+    app.delete("/despesas/:id", passport.authenticate('jwt', { session: false }), (req, res) => {
+        
+        DespesasDao.deleteDespesa(req.params.id)
+            .then((recordsets) => {
+                res.json(recordsets);
+            }).catch(err => res.send(err))
+    });
 
 }
