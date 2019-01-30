@@ -71,7 +71,25 @@ let LoginDao = {
             connection.query(query,
                 { type: Sequelize.QueryTypes.SELECT, bind: {email: email} }
             ).then(recordsets => {
-                resolve(recordsets);
+                if(recordsets.length == 0){
+                    resolve(true)
+                }else{
+                    reject({erro: true, message: 'Este email ja esta sendo usado'})
+                }
+            }).catch(err => reject(err))
+        })
+    },
+    verificarUser: (user) => {
+        return new Promise((resolve, reject) => {
+            let query = `select user from users WHERE user=$user`;
+            connection.query(query,
+                { type: Sequelize.QueryTypes.SELECT, bind: {user: user} }
+            ).then(recordsets => {
+                if(recordsets.length == 0){
+                    resolve(true)
+                }else{
+                    reject({erro: true, message: 'Este usuario ja esta sendo usado'})
+                }
             }).catch(err => reject(err))
         })
     }

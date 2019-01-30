@@ -5,7 +5,7 @@ const LoginDao = require('../Dao/LoginDao');
 //https://developer.okta.com/blog/2018/11/15/node-express-typescript
 module.exports = (app) => {
     app.get("/despesas/:id", passport.authenticate('jwt', { session: false }), (req, res) => {
-        
+
         DespesasDao.getDespesas(req.params.id)
             .then((recordsets) => {
                 res.json(recordsets);
@@ -17,8 +17,8 @@ module.exports = (app) => {
         req.assert('userId', 'Id do Usuario é obrigatório!').notEmpty();
         let erros = req.validationErrors();
 
-        if(erros){
-            res.status(400).json(erros)    
+        if (erros) {
+            res.status(400).json(erros)
             return;
         }
         DespesasDao.postDespesa(req.body)
@@ -32,28 +32,31 @@ module.exports = (app) => {
         req.assert('email', 'Email é obrigatório!').notEmpty();
         let erros = req.validationErrors();
 
-        if(erros){
-            resp.status(400).json(erros)    
+        if (erros) {
+            resp.status(400).json(erros)
             return;
         }
-
-        LoginDao.verificarEmail(req.body.email)
+        LoginDao.verificarUser(req.body.user)
             .then(() => {
-                
-                LoginDao.postUser(req.body)
+                LoginDao.verificarEmail(req.body.email)
                     .then(() => {
-                        LoginDao.sendMail(req.body)
-                            .then(() => resp.json(req.body))
-                            .catch(err => console.log(err))
-                    })
-                    .catch(err => resp.send(err))
-            }).catch(err => resp.send(err))
+
+                        LoginDao.postUser(req.body)
+                            .then(() => {
+                                LoginDao.sendMail(req.body)
+                                    .then(() => resp.json(req.body))
+                                    .catch(err => console.log(err))
+                            })
+                            .catch(err => resp.send(err))
+                    }).catch(err => resp.send(err))
+            })
+
     });
     app.get('/', (req, resp) => {
         resp.send('funcionando');
     });
     app.delete("/despesas/:id", passport.authenticate('jwt', { session: false }), (req, res) => {
-        
+
         DespesasDao.deleteDespesa(req.params.id)
             .then((recordsets) => {
                 res.json(recordsets);
