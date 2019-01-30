@@ -45,11 +45,11 @@ module.exports = (app) => {
                             .then(() => {
                                 LoginDao.sendMail(req.body)
                                     .then(() => resp.json(req.body))
-                                    .catch(err => console.log(err))
+                                    .catch(err => resp.status(400).sen(err))
                             })
-                            .catch(err => resp.send(err))
-                    }).catch(err => resp.send(err))
-            })
+                            .catch(err => resp.status(400).send(err))
+                    }).catch(err => resp.status(400).send(err))
+            }).catch(err => resp.status(400).send(err))
 
     });
     app.get('/', (req, resp) => {
@@ -60,6 +60,25 @@ module.exports = (app) => {
         DespesasDao.deleteDespesa(req.params.id)
             .then((recordsets) => {
                 res.json(recordsets);
+            }).catch(err => res.send(err))
+    });
+
+    app.put("/user", (req, res) => {
+        req.assert('user', 'Usuario é obrigatório!').notEmpty();
+        req.assert('senha', 'Senha é obrigatória').notEmpty();
+        req.assert('email', 'Email é obrigatório!').notEmpty();
+        let erros = req.validationErrors();
+        if (erros) {
+            resp.status(400).json(erros)
+            return;
+        }
+        LoginDao.alterarSenha(req.body)
+            .then((recordsets) => {
+                console.log('here')
+                LoginDao.emailNovaSenha(req.body)
+                                    .then(() => res.json({message: 'req.body'}))
+                                    .catch(err => res.status(400).send(err))
+                
             }).catch(err => res.send(err))
     });
 
